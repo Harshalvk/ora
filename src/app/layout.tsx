@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 export const metadata: Metadata = {
-  title: "Ora",
-  description: "Social Media Automation Tool.",
+  title: "ora",
+  description: "Workflow Automation Tool.",
 };
 
 export default function RootLayout({
