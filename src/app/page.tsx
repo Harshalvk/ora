@@ -1,10 +1,10 @@
 import ModeToggle from "@/components/ModeToggle";
+import Navbar from "../components/Navbar";
 
 export default function Home() {
   return (
-    <>
-    <h1>Ora</h1>
-    <ModeToggle/>
-    </>
+    <main>
+      <Navbar />
+    </main>
   );
 }
