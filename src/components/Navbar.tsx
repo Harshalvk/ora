@@ -1,3 +1,4 @@
+import { MenuIcon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
@@ -41,8 +42,7 @@ const Navbar = async (props: Props) => {
             Get Started
           </span>
         </Link>
-        {/* {user ? <UserButton afterSignOutUrl="/" /> : null}
-        <MenuIcon className="md:hidden" /> */}
+        <MenuIcon className="md:hidden" /> 
       </aside>
     </header>
   );
