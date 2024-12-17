@@ -1,3 +1,4 @@
+import InfoBar from "@/components/InfoBar";
 import Sidebar from "@/components/Sidebar";
 
 export default function DashboardLayout({
@@ -8,7 +9,9 @@ export default function DashboardLayout({
   return (
     <div className="flex overflow-hidden h-screen">
       <Sidebar/>
-      <div className="w-full">{children}</div>
+      <div className="w-full">
+        <InfoBar/>
+        {children}</div>
     </div>
   );
 }
