@@ -1,0 +1,9 @@
+/node_modules
+.dockerignore
+.git
+.gitignore
+.next
+.env
+.env.local
+.env.sample
+next-env.d.ts
