@@ -6,16 +6,19 @@ RUN npm install
 
 FROM node:20-alpine AS builder
 
+WORKDIR /src/app
 COPY . .
-COPY --from=desp /node_modules ./node_modules
-RUN npm run build
+COPY --from=deps /src/app/node_modules ./node_modules
+RUN npm run build 
 
 FROM node:20-alpine AS runner
 
-COPY --from=builder /.next/standalone ./
+WORKDIR /src/app
+COPY --from=builder /src/app/.next/standalone ./
+COPY --from=builder /src/app/.next/static ./.next/static
+COPY --from=builder /src/app/public ./public
 
 EXPOSE 3000
-
 ENV PORT 3000
 
-CMD HOSTNAME="0.0.0.0" node server.js
+CMD ["node","server.js"]
