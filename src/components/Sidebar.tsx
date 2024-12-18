@@ -18,11 +18,9 @@ import {
   LucideMousePointerClick,
   Sparkles,
 } from "lucide-react";
-import { ModeToggle } from "./ModeToggle";
+import ModeToggle from "./ModeToggle";
 
-type Props = {};
-
-const Sidebar = (props: Props) => {
+const Sidebar = () => {
   const pathName = usePathname();
   return (
     <nav className="dark:bg-black h-screen overflow-scroll justify-between flex flex-col gap-10 py-6 px-2 no-scrollbar">
