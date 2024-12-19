@@ -5,13 +5,14 @@ import {
   text,
   primaryKey,
   integer,
+  serial,
 } from "drizzle-orm/pg-core";
 import postgres from "postgres";
 import { drizzle } from "drizzle-orm/postgres-js";
 import type { AdapterAccountType } from "next-auth/adapters";
+import { relations } from "drizzle-orm";
 
-const connectionString = "postgres://postgres:postgres@localhost:5432/drizzle";
-const pool = postgres(connectionString, { max: 1 });
+const pool = postgres(process.env.DATABASE_URL!, { max: 1 });
 
 export const db = drizzle(pool);
 
@@ -23,7 +24,189 @@ export const users = pgTable("user", {
   email: text("email").unique(),
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
+  tier: text("tier").default("Free"),
+  credits: text("credits").default("10"),
+
+  createdAt: timestamp("createdAt", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+  updatedAt: timestamp()
+    .defaultNow()
+    .$onUpdate(() => new Date())
+    .notNull(),
+  localGoogleId: text("localGoogleId").unique(),
+  googleResourceId: text("googleResourceId").unique(),
 });
+
+export const usersRelations = relations(users, ({ one, many }) => ({
+  localGoogleCredential: one(localGoogleCredential, {
+    fields: [users.id],
+    references: [localGoogleCredential.userId],
+  }),
+  discordWebhook: many(discordWebhook),
+  notion: many(notion),
+  slack: many(slack),
+  connections: many(connections),
+  workflows: many(workflows),
+}));
+
+export const localGoogleCredential = pgTable("localGoogleCredential", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  webhookId: text("webhookId").unique(),
+
+  folderId: text("folderId"),
+  pageToken: text("pageToken"),
+  channelId: text("channelId")
+    .unique()
+    .$defaultFn(() => crypto.randomUUID()),
+  subscribed: boolean("subscribed").default(false),
+
+  createdAt: timestamp("createdAt", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+  updatedAt: timestamp()
+    .defaultNow()
+    .$onUpdate(() => new Date())
+    .notNull(),
+
+  userId: text("userId"),
+});
+
+export const localGoogleCredentialRelations = relations(
+  localGoogleCredential,
+  ({ one }) => ({
+    user: one(users, {
+      fields: [localGoogleCredential.userId],
+      references: [users.id],
+    }),
+  })
+);
+
+export const discordWebhook = pgTable("discordWebhook", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  webhookId: text("webhookId").unique(),
+  url: text("url").unique(),
+  name: text("name"),
+  guildName: text("guildName"),
+  guildId: text("guildId"),
+  channelId: text("channelId").unique(),
+  userId: text("userId"),
+});
+
+export const discordWebhookRelations = relations(discordWebhook, ({ one }) => ({
+  user: one(users, {
+    fields: [discordWebhook.userId],
+    references: [users.id],
+  }),
+}));
+
+export const slack = pgTable("slack", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+
+  appId: text("appId"),
+  authedUserId: text("authedUserId"),
+  authedUserToken: text("authedUserToken").unique(),
+  slackAccessToken: text("slackAccessToken").unique(),
+  botUserId: text("botUserId"),
+  teamId: text("teamId"),
+  teamName: text("teamName"),
+
+  userId: text("userId"),
+});
+
+export const slackRealtions = relations(slack, ({ one }) => ({
+  user: one(users, {
+    fields: [slack.userId],
+    references: [users.id],
+  }),
+}));
+
+export const notion = pgTable("notion", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+
+  accessToken: text("accessToken").unique(),
+  workspaceId: text("workspaceId").unique(),
+  databaseId: text("databaseId").unique(),
+  workspaceName: text("workspaceName"),
+  workspaceIcon: text("workspaceIcon"),
+  userId: text("userId"),
+});
+
+export const notionRealtions = relations(notion, ({ one, many }) => ({
+  user: one(users, {
+    fields: [notion.userId],
+    references: [users.id],
+  }),
+  connections: many(connections),
+}));
+
+export const connections = pgTable("connections", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+
+  type: text("type").unique(),
+  discordWebhookId: text("discordWebhookId"),
+  notionId: text("notionId"),
+  slackId: text("slackId"),
+  userId: text("userId"),
+});
+
+export const connectionsRelations = relations(connections, ({ one }) => ({
+  discordWebhook: one(discordWebhook, {
+    fields: [connections.discordWebhookId],
+    references: [discordWebhook.id],
+  }),
+  notion: one(notion, {
+    fields: [connections.notionId],
+    references: [notion.id],
+  }),
+  slack: one(slack, {
+    fields: [connections.slackId],
+    references: [slack.id],
+  }),
+  user: one(users, {
+    fields: [connections.userId],
+    references: [users.id],
+  }),
+}));
+
+export const workflows = pgTable("workflows", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+
+  nodes: text("nodes"),
+  edges: text("edges"),
+  name: text("name").notNull(),
+  discordTemplate: text("discordTemplate"),
+  notionTemplate: text("notionTemplate"),
+  notionAccessToken: text("notionAccessToken"),
+  notionDId: text("notionDId"),
+  slackTemplate: text("slackTemplate"),
+  slackChannels: text("slackChannels"),
+  slackAccessToken: text("slackAccessToken"),
+  flowPath: text("flowPath"),
+  cronPath: text("cronPath"),
+  publish: boolean("publish").default(false),
+  description: text("description").notNull(),
+  userId: text("userId"),
+});
+
+export const workflowsRelations = relations(workflows, ({ one }) => ({
+  user: one(users, {
+    fields: [workflows.userId],
+    references: [users.id],
+  }),
+}));
 
 export const accounts = pgTable(
   "account",
