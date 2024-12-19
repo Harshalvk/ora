@@ -23,6 +23,15 @@ export const users = pgTable("user", {
   email: text("email").unique(),
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
+  tier: text("tier").default("Free"),
+  credits: text("credits").default("10"),
+
+  createdAt: timestamp("createdAt", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+  updatedAt: timestamp(),
+  localGoogleId: text("localGoogleId").unique(),
+  googleResourceId: text("googleResourceId").unique(),
 });
 
 export const accounts = pgTable(
