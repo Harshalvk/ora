@@ -15,7 +15,7 @@ services:
   minio:
     image: quay.io/minio/minio:RELEASE.2022-02-18T01-50-10Z
     volumes:
-      - ./data:/data
+      - minio:/data
     ports:
       - 9000:9000
       - 9001:9001
