@@ -167,6 +167,35 @@ export const connectionsRelations = relations(connections, ({ one }) => ({
   }),
 }));
 
+export const workflows = pgTable("workflows", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+
+  nodes: text("nodes"),
+  edges: text("edges"),
+  name: text("name").notNull(),
+  discordTemplate: text("discordTemplate"),
+  notionTemplate: text("notionTemplate"),
+  notionAccessToken: text("notionAccessToken"),
+  notionDId: text("notionDId"),
+  slackTemplate: text("slackTemplate"),
+  slackChannels: text("slackChannels"),
+  slackAccessToken: text("slackAccessToken"),
+  flowPath: text("flowPath"),
+  cronPath: text("cronPath"),
+  publish: boolean("publish").default(false),
+  description: text("description").notNull(),
+  userId: text("userId"),
+});
+
+export const workflowsRelations = relations(workflows, ({ one }) => ({
+  user: one(users, {
+    fields: [workflows.userId],
+    references: [users.id],
+  }),
+}));
+
 export const accounts = pgTable(
   "account",
   {
