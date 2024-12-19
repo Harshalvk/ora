@@ -115,6 +115,26 @@ export const slackRealtions = relations(slack, ({ one }) => ({
   }),
 }));
 
+export const notion = pgTable("notion", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+
+  accessToken: text("accessToken").unique(),
+  workspaceId: text("workspaceId").unique(),
+  databaseId: text("databaseId").unique(),
+  workspaceName: text("workspaceName"),
+  workspaceIcon: text("workspaceIcon"),
+  userId: text("userId")
+});
+
+export const notionRealtions = relations(notion, ({ one }) => ({
+  user: one(users, {
+    fields: [notion.userId],
+    references: [users.id],
+  }),
+}));
+
 export const accounts = pgTable(
   "account",
   {
