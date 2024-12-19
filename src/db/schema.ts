@@ -92,6 +92,29 @@ export const discordWebhookRelations = relations(discordWebhook, ({ one }) => ({
   }),
 }));
 
+export const slack = pgTable("slack", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+
+  appId: text("appId"),
+  authedUserId: text("authedUserId"),
+  authedUserToken: text("authedUserToken").unique(),
+  slackAccessToken: text("slackAccessToken").unique(),
+  botUserId: text("botUserId"),
+  teamId: text("teamId"),
+  teamName: text("teamName"),
+
+  userId: text("userId"),
+});
+
+export const slackRealtions = relations(slack, ({ one }) => ({
+  user: one(users, {
+    fields: [slack.userId],
+    references: [users.id],
+  }),
+}));
+
 export const accounts = pgTable(
   "account",
   {
