@@ -42,7 +42,7 @@ export const localGoogleCredential = pgTable("localGoogleCredential", {
   id: text("id")
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
-  accessToken: text("accessToken").unique(),
+  webhookId: text("webhookId").unique(),
 
   folderId: text("folderId"),
   pageToken: text("pageToken"),
@@ -71,6 +71,26 @@ export const localGoogleCredentialRelations = relations(
     }),
   })
 );
+
+export const discordWebhook = pgTable("discordWebhook", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  webhookId: text("webhookId").unique(),
+  url: text("url").unique(),
+  name: text("name"),
+  guildName: text("guildName"),
+  guildId: text("guildId"),
+  channelId: text("channelId").unique(),
+  userId: text("userId"),
+});
+
+export const discordWebhookRelations = relations(discordWebhook, ({ one }) => ({
+  user: one(users, {
+    fields: [discordWebhook.userId],
+    references: [users.id],
+  }),
+}));
 
 export const accounts = pgTable(
   "account",
