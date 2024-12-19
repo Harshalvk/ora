@@ -125,12 +125,44 @@ export const notion = pgTable("notion", {
   databaseId: text("databaseId").unique(),
   workspaceName: text("workspaceName"),
   workspaceIcon: text("workspaceIcon"),
-  userId: text("userId")
+  userId: text("userId"),
 });
 
-export const notionRealtions = relations(notion, ({ one }) => ({
+export const notionRealtions = relations(notion, ({ one, many }) => ({
   user: one(users, {
     fields: [notion.userId],
+    references: [users.id],
+  }),
+  connections: many(connections),
+}));
+
+export const connections = pgTable("connections", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+
+  type: text("type").unique(),
+  discordWebhookId: text("discordWebhookId"),
+  notionId: text("notionId"),
+  slackId: text("slackId"),
+  userId: text("userId"),
+});
+
+export const connectionsRelations = relations(connections, ({ one }) => ({
+  discordWebhook: one(discordWebhook, {
+    fields: [connections.discordWebhookId],
+    references: [discordWebhook.id],
+  }),
+  notion: one(notion, {
+    fields: [connections.notionId],
+    references: [notion.id],
+  }),
+  slack: one(slack, {
+    fields: [connections.slackId],
+    references: [slack.id],
+  }),
+  user: one(users, {
+    fields: [connections.userId],
     references: [users.id],
   }),
 }));
