@@ -5,13 +5,14 @@ import {
   text,
   primaryKey,
   integer,
+  serial,
 } from "drizzle-orm/pg-core";
 import postgres from "postgres";
 import { drizzle } from "drizzle-orm/postgres-js";
 import type { AdapterAccountType } from "next-auth/adapters";
+import { relations } from "drizzle-orm";
 
-const connectionString = "postgres://postgres:postgres@localhost:5432/drizzle";
-const pool = postgres(connectionString, { max: 1 });
+const pool = postgres(process.env.DATABASE_URL!, { max: 1 });
 
 export const db = drizzle(pool);
 
@@ -29,10 +30,47 @@ export const users = pgTable("user", {
   createdAt: timestamp("createdAt", { withTimezone: true })
     .notNull()
     .defaultNow(),
-  updatedAt: timestamp(),
+  updatedAt: timestamp()
+    .defaultNow()
+    .$onUpdate(() => new Date())
+    .notNull(),
   localGoogleId: text("localGoogleId").unique(),
   googleResourceId: text("googleResourceId").unique(),
 });
+
+export const localGoogleCredential = pgTable("localGoogleCredential", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  accessToken: text("accessToken").unique(),
+
+  folderId: text("folderId"),
+  pageToken: text("pageToken"),
+  channelId: text("channelId")
+    .unique()
+    .$defaultFn(() => crypto.randomUUID()),
+  subscribed: boolean("subscribed").default(false),
+
+  createdAt: timestamp("createdAt", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+  updatedAt: timestamp()
+    .defaultNow()
+    .$onUpdate(() => new Date())
+    .notNull(),
+
+  userId: text("userId"),
+});
+
+export const localGoogleCredentialRelations = relations(
+  localGoogleCredential,
+  ({ one }) => ({
+    user: one(users, {
+      fields: [localGoogleCredential.userId],
+      references: [users.id],
+    }),
+  })
+);
 
 export const accounts = pgTable(
   "account",
