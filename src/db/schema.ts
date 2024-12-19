@@ -38,6 +38,18 @@ export const users = pgTable("user", {
   googleResourceId: text("googleResourceId").unique(),
 });
 
+export const usersRelations = relations(users, ({ one, many }) => ({
+  localGoogleCredential: one(localGoogleCredential, {
+    fields: [users.id],
+    references: [localGoogleCredential.userId],
+  }),
+  discordWebhook: many(discordWebhook),
+  notion: many(notion),
+  slack: many(slack),
+  connections: many(connections),
+  workflows: many(workflows),
+}));
+
 export const localGoogleCredential = pgTable("localGoogleCredential", {
   id: text("id")
     .primaryKey()
