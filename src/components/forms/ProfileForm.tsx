@@ -16,16 +16,21 @@ import {
 import { Input } from "@/components/ui/input";
 import { EditUserProfileSchema } from "@/lib/types";
 import { Loader2 } from "lucide-react";
+import { User } from "next-auth";
 
-const ProfileForm = () => {
+type Props = {
+  user: Pick<User, "name" | "email">;
+};
+
+const ProfileForm = ({ user }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof EditUserProfileSchema>>({
     mode: "onChange",
     resolver: zodResolver(EditUserProfileSchema),
     defaultValues: {
-      email: "",
-      name: "",
+      email: user.email || "",
+      name: user.name || "",
     },
   });
 
