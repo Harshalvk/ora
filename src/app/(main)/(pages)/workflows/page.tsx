@@ -1,7 +1,8 @@
-import React from 'react'
-import WorkflowButton from './_components/WorkflowButton'
+import React from "react";
+import WorkflowButton from "./_components/WorkflowButton";
+import Workflows from "./_components";
 
-type Props = {}
+type Props = {};
 
 const Page = (props: Props) => {
   return (
@@ -10,8 +11,9 @@ const Page = (props: Props) => {
         Workflows
         <WorkflowButton />
       </h1>
+      <Workflows />
     </div>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;
