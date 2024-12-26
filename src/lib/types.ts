@@ -10,7 +10,7 @@ export const WorkflowFormSchema = z.object({
   description: z.string().min(1, "Required"),
 });
 
-export type EditorNodeTypes =
+export type EditorCanvasTypes =
   | "Email"
   | "Condition"
   | "AI"
@@ -18,7 +18,7 @@ export type EditorNodeTypes =
   | "Google Drive"
   | "Notion"
   | "Custom Webhook"
-  | "Google Calender"
+  | "Google Calendar"
   | "Trigger"
   | "Action"
   | "Wait";
@@ -29,7 +29,7 @@ export type EditorCanvasCardType = {
   completed: boolean;
   current: boolean;
   metadata: any;
-  type: EditorNodeTypes;
+  type: EditorCanvasTypes;
 };
 
 export type EditorNodeType = {

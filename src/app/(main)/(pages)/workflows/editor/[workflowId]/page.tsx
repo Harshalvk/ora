@@ -1,6 +1,7 @@
 import { ConnectionProvider } from "@/providers/ConnectionsProvider";
 import EditorProvider from "@/providers/EditorProvider";
 import React from "react";
+import EditorCanvas from "./_components/EditorCanvas";
 
 type Props = {
   params: {
@@ -15,7 +16,7 @@ const page = async ({ params }: Props) => {
     <div className="h-full">
       <EditorProvider>
         <ConnectionProvider>
-          <></>
+          <EditorCanvas/>
         </ConnectionProvider>
       </EditorProvider>
     </div>
