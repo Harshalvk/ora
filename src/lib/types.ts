@@ -1,3 +1,4 @@
+import { ConnectionProviderProps } from "@/providers/ConnectionsProvider";
 import { z } from "zod";
 
 export const EditUserProfileSchema = z.object({
@@ -60,3 +61,15 @@ export type EditorActions =
   | { type: "REDO" }
   | { type: "UNDO" }
   | { type: "SELECTED_ELEMENT"; payload: { element: EditorNode } };
+
+export type ConnectionTypes = "Google Drive" | "Notion" | "Slack" | "Discord";
+
+export type Connection = {
+  title: ConnectionTypes;
+  description: string;
+  image: string;
+  connectionKey: keyof ConnectionProviderProps;
+  accessTokenKey?: string;
+  alwaysTrue?: boolean;
+  slackSpecial?: boolean;
+};
