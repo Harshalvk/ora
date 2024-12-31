@@ -18,18 +18,3 @@ Key Features
  * User-Friendly Interface:
    * Intuitive and easy-to-use interface with a drag-and-drop workflow builder.
    * Customizable dashboards for personalized monitoring.
-Benefits
- * Save Time & Effort: Automate repetitive tasks, freeing up time for more strategic social media activities.
- * Increase Efficiency: Streamline workflows and improve overall productivity.
- * Boost Engagement: Schedule posts strategically and respond to interactions promptly to increase audience engagement.
- * Gain Valuable Insights: Track performance data and identify areas for improvement.
- * Enhance Brand Consistency: Maintain a consistent brand voice and messaging across all platforms.
-Getting Started
- * Installation instructions (if applicable)
- * Quick start guide with basic usage examples
- * Links to documentation and tutorials
-Contributing
- * Guidelines for contributing to the project (if applicable)
- * How to report bugs or submit feature requests
-Disclaimer
- * Note any limitations or disclaimers (e.g., platform API limitations, data usage policies).
