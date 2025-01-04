@@ -97,12 +97,16 @@ export const discordWebhook = pgTable("discordWebhook", {
   userId: text("userId"),
 });
 
-export const discordWebhookRelations = relations(discordWebhook, ({ one }) => ({
-  user: one(users, {
-    fields: [discordWebhook.userId],
-    references: [users.id],
-  }),
-}));
+export const discordWebhookRelations = relations(
+  discordWebhook,
+  ({ one, many }) => ({
+    user: one(users, {
+      fields: [discordWebhook.userId],
+      references: [users.id],
+    }),
+    connections: many(connections),
+  })
+);
 
 export const slack = pgTable("slack", {
   id: text("id")
