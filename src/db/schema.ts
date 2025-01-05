@@ -124,11 +124,12 @@ export const slack = pgTable("slack", {
   userId: text("userId"),
 });
 
-export const slackRealtions = relations(slack, ({ one }) => ({
+export const slackRealtions = relations(slack, ({ one, many }) => ({
   user: one(users, {
     fields: [slack.userId],
     references: [users.id],
   }),
+  connections: many(connections),
 }));
 
 export const notion = pgTable("notion", {
