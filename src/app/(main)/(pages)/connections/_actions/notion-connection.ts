@@ -14,7 +14,7 @@ export const onNotionConnect = async (
   database_id: string,
   id: string
 ) => {
-  "user server";
+  "use server";
   if (access_token) {
     //check if notion is connected
     const notion_connected = await db.query.notion.findFirst({
