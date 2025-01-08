@@ -14,6 +14,7 @@ import { EditorState } from "@/providers/EditorProvider";
 import { Option } from "@/store";
 import React from "react";
 import GoogleFileDetails from "./GoogleFileDetails";
+import GoogleDriveFiles from "./GoogleDriveFiles";
 
 type Props = {
   nodeConnection: ConnectionProviderProps;
@@ -91,6 +92,7 @@ const ContentBasedOnTitle = ({
               </CardContent>
             </Card>
           )}
+          {title === "Google Drive" && <GoogleDriveFiles />}
         </div>
       </Card>
     </AccordionContent>
