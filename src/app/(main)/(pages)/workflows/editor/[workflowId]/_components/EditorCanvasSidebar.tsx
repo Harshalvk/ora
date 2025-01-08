@@ -12,9 +12,13 @@ import { CONNECTIONS, EditorCanvasDefaultCardTypes } from "@/lib/constants";
 import { EditorCanvasTypes, EditorNodeType } from "@/lib/types";
 import { useNodeConnections } from "@/providers/ConnectionsProvider";
 import { useEditor } from "@/providers/EditorProvider";
-import React from "react";
+import React, { useEffect } from "react";
 import EditorCanvasIconHelper from "./EditorCanvasIconHelper";
-import { onDragStart } from "@/lib/editor-utils";
+import {
+  fetchBotSlackChannels,
+  onConnections,
+  onDragStart,
+} from "@/lib/editor-utils";
 import {
   Accordion,
   AccordionContent,
@@ -23,6 +27,7 @@ import {
 } from "@/components/ui/accordion";
 import RenderConnectionAccordion from "./RenderConnectionAccordion";
 import RenderOutputAccordion from "./RenderOutputAccordion";
+import { useOraStore } from "@/store";
 
 type Props = {
   nodes: EditorNodeType[];
@@ -31,6 +36,22 @@ type Props = {
 const EditorCanvasSidebar = ({ nodes }: Props) => {
   const { state } = useEditor();
   const { nodeConnection } = useNodeConnections();
+  const { googleFile, setSlackChannels } = useOraStore();
+
+  useEffect(() => {
+    if (state) {
+      onConnections(nodeConnection, state, googleFile);
+    }
+  }, [state]);
+
+  useEffect(() => {
+    if (nodeConnection.slackNode.slackAccessToken) {
+      fetchBotSlackChannels(
+        nodeConnection.slackNode.slackAccessToken,
+        setSlackChannels
+      );
+    }
+  }, [nodeConnection]);
 
   return (
     <aside>
