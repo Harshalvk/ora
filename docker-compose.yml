@@ -5,12 +5,12 @@ services:
     restart: always
     container_name: ora-db
     ports:
-      - 5000:5000
+      - 5432:5432
     environment:
-      POSTGRES_PASSWORD: harshal
-      PGDATA: /data/postgres
+      - POSTGRES_PASSWORD=harshal
+      - PGDATA=/data/postgres-ora
     volumes:
-      - postgres:/data/postgres
+      - postgres-ora:/data/postgres-ora
 
   minio:
     image: quay.io/minio/minio:RELEASE.2022-02-18T01-50-10Z
@@ -28,5 +28,5 @@ services:
     restart: always
 
 volumes:
-  postgres:
+  postgres-ora:
   minio:
