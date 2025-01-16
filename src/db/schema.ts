@@ -5,16 +5,10 @@ import {
   text,
   primaryKey,
   integer,
-  serial,
+  json,
 } from "drizzle-orm/pg-core";
-import postgres from "postgres";
-import { drizzle } from "drizzle-orm/postgres-js";
 import type { AdapterAccountType } from "next-auth/adapters";
 import { relations } from "drizzle-orm";
-
-const pool = postgres(process.env.DATABASE_URL!, { max: 1 });
-
-export const db = drizzle(pool);
 
 export const users = pgTable("user", {
   id: text("id")
@@ -197,7 +191,7 @@ export const workflows = pgTable("workflows", {
   notionAccessToken: text("notionAccessToken"),
   notionDId: text("notionDId"),
   slackTemplate: text("slackTemplate"),
-  slackChannels: text("slackChannels"),
+  slackChannels: json("slackChannels").$type<string[]>(),
   slackAccessToken: text("slackAccessToken"),
   flowPath: text("flowPath"),
   cronPath: text("cronPath"),
