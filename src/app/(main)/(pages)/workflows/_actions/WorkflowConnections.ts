@@ -157,9 +157,35 @@ export const onGetWorkflows = async () => {
 
   if (user) {
     const workflow = await db.query.workflows.findMany({
-      where: eq(users.id, user.id),
+      where: eq(workflows.userId, user.id),
     });
 
     if (workflow) return workflow;
+  }
+};
+
+export const onCreateWorkflow = async (name: string, description: string) => {
+  const session = await auth();
+
+  if (!session || !session.user) {
+    return undefined; //if there's no session or user
+  }
+
+  const user = session.user;
+
+  //ensuring user.id is defined and is a string
+  if (typeof user.id !== "string") {
+    return undefined;
+  }
+
+  if (user) {
+    const workflow = await db.insert(workflows).values({
+      userId: user.id,
+      name,
+      description,
+    });
+
+    if (workflow) return { message: "Workflow created" };
+    return { message: "Workflow not created, try again" };
   }
 };
