@@ -66,7 +66,6 @@ const Connections = async ({ searchParams }: Props) => {
   }
 
   const onUserConnections = async () => {
-    console.log(database_id);
     await onDiscordConnect(
       channel_id!,
       webhook_id!,
