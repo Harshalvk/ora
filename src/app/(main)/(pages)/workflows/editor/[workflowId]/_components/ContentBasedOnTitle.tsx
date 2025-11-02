@@ -12,7 +12,6 @@ import { nodeMapper } from "@/lib/types";
 import { ConnectionProviderProps } from "@/providers/ConnectionsProvider";
 import { EditorState } from "@/providers/EditorProvider";
 import { Option } from "@/store";
-import React from "react";
 import GoogleFileDetails from "./GoogleFileDetails";
 import GoogleDriveFiles from "./GoogleDriveFiles";
 import ActionButton from "./ActionButton";
@@ -48,10 +47,10 @@ const ContentBasedOnTitle = ({
             title === "Slack"
               ? "slackAccessToken"
               : title === "Discord"
-              ? "webhookURL"
-              : title === "Notion"
-              ? "accessToken"
-              : ""
+                ? "webhookURL"
+                : title === "Notion"
+                  ? "accessToken"
+                  : ""
           }`
         ];
 
@@ -69,13 +68,21 @@ const ContentBasedOnTitle = ({
         <div className="flex flex-col gap-3 px-6 py-3 pb-20">
           <p>{title === "Notion" ? "Vallues to be stored" : "Message"}</p>
           {title === "Discord" || title === "Slack" ? (
-            <Input
-              type="text"
-              value={nodeConnectionType.content}
-              onChange={(event) =>
-                onContentChange(nodeConnection, title, event)
-              }
-            />
+            <>
+              <Input
+                type="text"
+                value={nodeConnectionType.content}
+                onChange={(event) =>
+                  onContentChange(nodeConnection, title, event)
+                }
+              />
+              <ActionButton
+                currentService={title}
+                nodeConnection={nodeConnection}
+                channels={selectedSlackChannels}
+                setChannels={setSelectedSlackChannels}
+              />
+            </>
           ) : null}
           {JSON.stringify(file) !== "{}" && title !== "Google Drive" && (
             <Card className="w-full">

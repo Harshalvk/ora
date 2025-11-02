@@ -120,12 +120,10 @@ export const postContentToWebHook = async (content: string, url: string) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(content),
+      body: JSON.stringify({ content }),
     });
 
-    const posted = await postReqeust.json();
-
-    if (posted) {
+    if (postReqeust.ok) {
       return { message: "success" };
     }
 

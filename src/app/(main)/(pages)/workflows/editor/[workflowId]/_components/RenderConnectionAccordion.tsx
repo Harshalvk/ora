@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import ConnectionCard from "@/app/(main)/(pages)/connections/_components/ConnectionCard";
 import { AccordionContent } from "@/components/ui/accordion";
 import MultipleSelector from "@/components/ui/multiple-selector";
@@ -7,44 +7,6 @@ import { Connection } from "@/lib/types";
 import { useNodeConnections } from "@/providers/ConnectionsProvider";
 import { EditorState } from "@/providers/EditorProvider";
 import { useOraStore } from "@/store";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { CheckIcon, ChevronsUpDown } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-
-const frameworks = [
-  {
-    value: "next.js",
-    label: "Next.js",
-  },
-  {
-    value: "sveltekit",
-    label: "SvelteKit",
-  },
-  {
-    value: "nuxt.js",
-    label: "Nuxt.js",
-  },
-  {
-    value: "remix",
-    label: "Remix",
-  },
-  {
-    value: "astro",
-    label: "Astro",
-  },
-];
 
 const RenderConnectionAccordion = ({
   connection,
