@@ -68,21 +68,13 @@ const ContentBasedOnTitle = ({
         <div className="flex flex-col gap-3 px-6 py-3 pb-20">
           <p>{title === "Notion" ? "Vallues to be stored" : "Message"}</p>
           {title === "Discord" || title === "Slack" ? (
-            <>
-              <Input
-                type="text"
-                value={nodeConnectionType.content}
-                onChange={(event) =>
-                  onContentChange(nodeConnection, title, event)
-                }
-              />
-              <ActionButton
-                currentService={title}
-                nodeConnection={nodeConnection}
-                channels={selectedSlackChannels}
-                setChannels={setSelectedSlackChannels}
-              />
-            </>
+            <Input
+              type="text"
+              value={nodeConnectionType.content}
+              onChange={(event) =>
+                onContentChange(nodeConnection, title, event)
+              }
+            />
           ) : null}
           {JSON.stringify(file) !== "{}" && title !== "Google Drive" && (
             <Card className="w-full">
