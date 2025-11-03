@@ -56,7 +56,6 @@ export const localGoogleCredential = pgTable("localGoogleCredential", {
     .unique()
     .$defaultFn(() => crypto.randomUUID()),
   subscribed: boolean("subscribed").default(false),
-
   createdAt: timestamp("createdAt", { withTimezone: true })
     .notNull()
     .defaultNow(),
@@ -157,6 +156,7 @@ export const connections = pgTable("connections", {
   notionId: text("notionId"),
   slackId: text("slackId"),
   userId: text("userId"),
+  driveConnected: boolean("driveConnected"),
 });
 
 export const connectionsRelations = relations(connections, ({ one }) => ({
@@ -215,6 +215,8 @@ export const accounts = pgTable(
       .references(() => users.id, { onDelete: "cascade" }),
     type: text("type").$type<AdapterAccountType>().notNull(),
     provider: text("provider").notNull(),
+    tier: text("tier").default("Free"),
+    credits: text("credits").default("10"),
     providerAccountId: text("providerAccountId").notNull(),
     refresh_token: text("refresh_token"),
     access_token: text("access_token"),
