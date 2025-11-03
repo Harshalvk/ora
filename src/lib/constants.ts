@@ -66,33 +66,32 @@ export const EditorCanvasDefaultCardTypes = {
 
 export const CONNECTIONS: Connection[] = [
   {
-    title: 'Google Drive',
-    description: 'Connect your google drive to listen to folder changes',
-    image: '/googleDrive.png',
-    connectionKey: 'googleNode',
-    alwaysTrue: true,
+    title: "Google Drive",
+    description: "Connect your google drive to listen to folder changes",
+    image: "/googleDrive.png",
+    connectionKey: "googleNode",
   },
   {
-    title: 'Discord',
-    description: 'Connect your discord to send notification and messages',
-    image: '/discord.png',
-    connectionKey: 'discordNode',
-    accessTokenKey: 'webhookURL',
+    title: "Discord",
+    description: "Connect your discord to send notification and messages",
+    image: "/discord.png",
+    connectionKey: "discordNode",
+    accessTokenKey: "webhookURL",
   },
   {
-    title: 'Notion',
-    description: 'Create entries in your notion dashboard and automate tasks.',
-    image: '/notion.png',
-    connectionKey: 'notionNode',
-    accessTokenKey: 'accessToken',
+    title: "Notion",
+    description: "Create entries in your notion dashboard and automate tasks.",
+    image: "/notion.png",
+    connectionKey: "notionNode",
+    accessTokenKey: "accessToken",
   },
   {
-    title: 'Slack',
+    title: "Slack",
     description:
-      'Use slack to send notifications to team members through your own custom bot.',
-    image: '/slack.png',
-    connectionKey: 'slackNode',
-    accessTokenKey: 'slackAccessToken',
+      "Use slack to send notifications to team members through your own custom bot.",
+    image: "/slack.png",
+    connectionKey: "slackNode",
+    accessTokenKey: "slackAccessToken",
     slackSpecial: true,
   },
-]
+];
