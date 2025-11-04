@@ -1,5 +1,4 @@
 import { CONNECTIONS } from "@/lib/constants";
-import React from "react";
 import ConnectionCard from "./_components/ConnectionCard";
 import { onDiscordConnect } from "./_actions/discord-connection";
 import { onNotionConnect } from "./_actions/notion-connection";
@@ -75,6 +74,7 @@ const Connections = async ({ searchParams }: Props) => {
       guild_name!,
       guild_id!
     );
+
     await onNotionConnect(
       access_token!,
       workspace_id!,
@@ -99,6 +99,7 @@ const Connections = async ({ searchParams }: Props) => {
 
     const user_info = await getUserData(user.id!);
 
+
     //get user info with all connections
     user_info?.connections.map((connection) => {
       connections[connection.type!] = true;
@@ -107,7 +108,7 @@ const Connections = async ({ searchParams }: Props) => {
 
     // Google Drive connection will always be true
     // as it is given access during the login process
-    return { ...connections, "Google Drive": true };
+    return { ...connections };
   };
 
   const connections = await onUserConnections();
