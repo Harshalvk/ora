@@ -58,9 +58,16 @@ const ActionButton = ({
   }, [nodeConnection.notionNode]);
 
   const onStoreSlackContent = useCallback(async () => {
+    const slackChannels = channels?.map((channel) => {
+      return {
+        lable: channel.label,
+        value: channel.value,
+      };
+    });
+
     const response = await postMessageToSlack(
       nodeConnection.slackNode.slackAccessToken,
-      channels!,
+      slackChannels!,
       nodeConnection.slackNode.content
     );
 
