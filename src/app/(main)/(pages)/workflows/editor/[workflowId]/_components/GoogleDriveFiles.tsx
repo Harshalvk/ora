@@ -31,6 +31,8 @@ const GoogleDriveFiles = (props: Props) => {
       }
     } catch (error: any) {
       console.error("Error fetching drive activity:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
