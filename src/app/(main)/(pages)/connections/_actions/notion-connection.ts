@@ -85,6 +85,11 @@ export const getNotionDatabase = async (
   return response;
 };
 
+export type NotionNodeContentType = {
+  name: string;
+  kind: string;
+  type: string;
+};
 export const onCreateNewPageInDatabase = async (
   databaseId: string,
   accessToken: string,
@@ -100,10 +105,11 @@ export const onCreateNewPageInDatabase = async (
       database_id: databaseId,
     },
     properties: {
-      name: [
+      Name: [
         {
           text: {
-            content: content,
+            // content: content.name,
+            content: "Testing",
           },
         },
       ],
