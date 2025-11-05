@@ -145,7 +145,7 @@ const postMessageInSlackChannel = async (
 //wrapper function to post messagees to multiple slack channels
 export const postMessageToSlack = async (
   slackAccessToken: string,
-  selectedSlackChannels: Option[],
+  selectedSlackChannels: { lable: string; value: string }[],
   content: string
 ): Promise<{ message: string }> => {
   if (!content) return { message: "Content is empty" };
