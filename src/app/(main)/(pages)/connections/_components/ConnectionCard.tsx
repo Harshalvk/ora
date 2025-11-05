@@ -1,5 +1,6 @@
+"use client";
+
 import { ConnectionTypes } from "@/lib/types";
-import React from "react";
 import {
   Card,
   CardDescription,
@@ -8,6 +9,8 @@ import {
 } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
+import { GenerateDriveAuthUrl } from "../_actions/generate-drive-authurl";
+import { useEffect, useState } from "react";
 
 type Props = {
   type: ConnectionTypes;
@@ -25,6 +28,24 @@ const ConnectionCard = ({
   title,
   connected,
 }: Props) => {
+  const [redirectUrl, setRedirectUrl] = useState("");
+  
+  const getRedirectUri = async () => {
+    title == "Discord"
+      ? setRedirectUrl(process.env.NEXT_PUBLIC_DISCORD_REDIRECT!)
+      : title == "Notion"
+        ? setRedirectUrl(process.env.NEXT_PUBLIC_NOTION_AUTH_URL!)
+        : title == "Slack"
+          ? setRedirectUrl(process.env.NEXT_PUBLIC_SLACK_REDIRECT!)
+          : title === "Google Drive"
+            ? setRedirectUrl(await GenerateDriveAuthUrl())
+            : "#";
+  };
+
+  useEffect(() => {
+    getRedirectUri();
+  }, []);
+
   return (
     <Card className="flex w-full items-center justify-between">
       <CardHeader className="flex flex-col gap-4">
@@ -49,15 +70,7 @@ const ConnectionCard = ({
           </div>
         ) : (
           <Link
-            href={
-              title == "Discord"
-                ? process.env.NEXT_PUBLIC_DISCORD_REDIRECT!
-                : title == "Notion"
-                  ? process.env.NEXT_PUBLIC_NOTION_AUTH_URL!
-                  : title == "Slack"
-                    ? process.env.NEXT_PUBLIC_SLACK_REDIRECT!
-                    : "#"
-            }
+            href={redirectUrl}
             className=" rounded-lg bg-primary p-2 font-bold text-primary-foreground"
           >
             Connect
