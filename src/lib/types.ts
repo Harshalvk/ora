@@ -43,6 +43,12 @@ export type EditorNodeType = {
   data: EditorCanvasCardType;
 };
 
+export type EditorNodeEdgesType = {
+  id: string;
+  source: string;
+  target: string;
+};
+
 export type EditorNode = EditorNodeType;
 
 export type EditorActions =
@@ -79,4 +85,13 @@ export const nodeMapper: Record<string, string> = {
   Slack: "slackNode",
   Discord: "discordNode",
   "Google Drive": "googleNode",
+} as const;
+
+export type NodeType = keyof typeof nodeMapper;
+
+export type GoogleFileType = {
+  id: string;
+  kind: string;
+  mimeType: string;
+  name: string;
 };
