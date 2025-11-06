@@ -10,7 +10,10 @@ export type ConnectionProviderProps = {
     guildName: string;
   };
   setDiscordNode: React.Dispatch<React.SetStateAction<any>>;
-  googleNode: {}[];
+  googleNode: {
+    accessToken: string;
+    driveConnected: string;
+  }[];
   setGoogleNode: React.Dispatch<React.SetStateAction<any>>;
   notionNode: {
     accessToken: string;
@@ -45,6 +48,8 @@ export type ConnectionProviderProps = {
   isLoading: boolean;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
+
+export type ConnectionKey = keyof ConnectionProviderProps;
 
 type ConnectionWithChildProps = {
   children: React.ReactNode;
