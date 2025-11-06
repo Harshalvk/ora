@@ -1,32 +1,14 @@
-version: "3.9"
 services:
-  ora-db:
+  ora-db-dev:
     image: postgres
-    restart: always
-    container_name: ora-db
+    container_name: ora-db-dev
     ports:
       - 5432:5432
     environment:
       - POSTGRES_PASSWORD=harshal
-      - PGDATA=/data/postgres-ora
+      - PGDATA=/data/postgres-ora-dev
     volumes:
-      - postgres-ora:/data/postgres-ora
-
-  minio:
-    image: quay.io/minio/minio:RELEASE.2022-02-18T01-50-10Z
-    volumes:
-      - minio:/data
-    ports:
-      - 9000:9000
-      - 9001:9001
-    environment:
-      MINIO_ROOT_USER: harshal
-      MINIO_ROOT_PASSWORD: 123456789
-      MINIO_ADDRESS: :9000
-      MINIO_CONSOLE_ADDRESS: :9001
-    command: server --console-address ":9001" /data
-    restart: always
+      - postgres-ora-dev:/data/postgres-ora-dev
 
 volumes:
-  postgres-ora:
-  minio:
+  postgres-ora-dev:
