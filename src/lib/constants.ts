@@ -70,6 +70,7 @@ export const CONNECTIONS: Connection[] = [
     description: "Connect your google drive to listen to folder changes",
     image: "/googleDrive.png",
     connectionKey: "googleNode",
+    accessTokenKey: "accessToken",
   },
   {
     title: "Discord",
