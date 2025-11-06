@@ -22,7 +22,5 @@ export async function GenerateDriveAuthUrl() {
     ],
   });
 
-  console.log("drive auth url: ", authUrl);
-
   return authUrl;
 }

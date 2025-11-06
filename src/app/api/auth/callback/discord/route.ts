@@ -4,7 +4,6 @@ import url from "url";
 
 export async function GET(req: NextRequest) {
   try {
-    console.log(req.url);
     const code = req.nextUrl.searchParams.get("code");
     
     if (code) {
