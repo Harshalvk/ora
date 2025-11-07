@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { GoogleFileType } from "./lib/types";
 
 export interface Option {
   value: string;
@@ -9,8 +10,8 @@ export interface Option {
 }
 
 type OraStore = {
-  googleFile: any;
-  setGoogleFile: (googleFile: any) => void;
+  googleFiles: GoogleFileType[];
+  setGoogleFiles: (googleFile: GoogleFileType[]) => void;
   slackChannels: Option[];
   setSlackChannels: (slackChannels: Option[]) => void;
   selectedSlackChannels: Option[];
@@ -18,8 +19,15 @@ type OraStore = {
 };
 
 export const useOraStore = create<OraStore>()((set) => ({
-  googleFile: {},
-  setGoogleFile: (googleFile: any) => set({ googleFile }),
+  googleFiles: [
+    {
+      id: "",
+      kind: "",
+      mimeType: "",
+      name: "",
+    },
+  ],
+  setGoogleFiles: (googleFiles: GoogleFileType[]) => set({ googleFiles }),
   slackChannels: [],
   setSlackChannels: (slackChannels: Option[]) => set({ slackChannels }),
   selectedSlackChannels: [],
