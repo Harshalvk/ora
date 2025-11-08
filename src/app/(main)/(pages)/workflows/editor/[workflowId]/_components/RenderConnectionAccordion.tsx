@@ -21,7 +21,6 @@ const RenderConnectionAccordion = ({
     description,
     connectionKey,
     accessTokenKey,
-    alwaysTrue,
     slackSpecial,
   } = connection;
 
@@ -35,7 +34,6 @@ const RenderConnectionAccordion = ({
   const connectionData = (nodeConnection as any)[connectionKey];
 
   const isConnected =
-    alwaysTrue ||
     (nodeConnection[connectionKey] &&
       accessTokenKey &&
       connectionData[accessTokenKey!]);
