@@ -12,7 +12,7 @@ export const onCreateNodesEdges = async (
 ) => {
   const flow = await db
     .update(workflows)
-    .set({ nodes, edges, flowPath: flowPath })
+    .set({ nodes, edges, flowPath })
     .where(eq(workflows.id, flowId));
 
   if (flow) return { message: "flow saved" };
@@ -26,4 +26,18 @@ export const onFlowPublish = async (workflowId: string, state: boolean) => {
 
   if (published) return "Workflow published";
   return "Workflow unpublished";
+};
+
+export const onGetNodesEdges = async (workflowId: string) => {
+  const nodeEdgesDBFetch = await db
+    .select({
+      nodes: workflows.nodes,
+      edges: workflows.edges,
+    })
+    .from(workflows)
+    .where(eq(workflows.id, workflowId));
+
+  const nodeEdges = nodeEdgesDBFetch[0];
+
+  if (nodeEdges.nodes && nodeEdges.edges) return nodeEdges;
 };
