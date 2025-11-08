@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   addEdge,
   applyEdgeChanges,
@@ -15,8 +15,13 @@ import {
   ReactFlow,
   ReactFlowInstance,
 } from "@xyflow/react";
+// @ts-ignore
 import "@xyflow/react/dist/style.css";
-import { EditorCanvasCardType, EditorNodeType } from "@/lib/types";
+import {
+  EditorCanvasCardType,
+  EditorNodeEdgesType,
+  EditorNodeType,
+} from "@/lib/types";
 import { useEditor } from "@/providers/EditorProvider";
 import EditorCanvasCardSingle from "./EditorCanvasCardSingle";
 import {
@@ -30,14 +35,13 @@ import { v4 } from "uuid";
 import { EditorCanvasDefaultCardTypes } from "@/lib/constants";
 import FlowInstance from "./FlowInstance";
 import EditorCanvasSidebar from "./EditorCanvasSidebar";
-
-type Props = {};
+import { onGetNodesEdges } from "../_actions/WorkConnectionsAction";
 
 const initialNodes: EditorNodeType[] = [];
 
-const initialEdges: { id: string; source: string; target: string }[] = [];
+const initialEdges: EditorNodeEdgesType[] = [];
 
-const EditorCanvas = (props: Props) => {
+const EditorCanvas = () => {
   const { dispatch, state } = useEditor();
   const [nodes, setNodes] = useState(initialNodes);
   const [edges, setEdges] = useState(initialEdges);
@@ -57,19 +61,17 @@ const EditorCanvas = (props: Props) => {
   }, []);
 
   const onNodesChange = useCallback(
-    (changes: NodeChange[]) => {
-      //@ts-ignore
+    (changes: NodeChange<EditorNodeType>[]) => {
       setNodes((nds) => applyNodeChanges(changes, nds));
     },
-    [setNodes]
+    [nodes]
   );
 
   const onEdgesChange = useCallback(
     (changes: EdgeChange[]) => {
-      //@ts-ignore
       setEdges((eds) => applyEdgeChanges(changes, eds));
     },
-    [setEdges]
+    [edges]
   );
 
   const onConnect = useCallback(
@@ -118,7 +120,6 @@ const EditorCanvas = (props: Props) => {
           type: type,
         },
       };
-      //@ts-ignore
       setNodes((nds) => nds.concat(newNode));
     },
     [reactFlowInstance, state]
@@ -166,6 +167,23 @@ const EditorCanvas = (props: Props) => {
     }),
     []
   );
+
+  const onGetWorkflow = async () => {
+    setIsWorkFlowLoading(true);
+    const res = await onGetNodesEdges(pathName.split("/").pop()!);
+
+    if (res) {
+      setEdges(JSON.parse(res.edges!));
+      setNodes(JSON.parse(res.nodes!));
+      setIsWorkFlowLoading(false);
+    }
+
+    setIsWorkFlowLoading(false);
+  };
+
+  useEffect(() => {
+    onGetWorkflow();
+  }, []);
 
   return (
     <ResizablePanelGroup direction="horizontal" className="">
