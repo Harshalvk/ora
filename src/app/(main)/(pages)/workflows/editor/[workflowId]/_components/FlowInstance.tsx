@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { useNodeConnections } from "@/providers/ConnectionsProvider";
 import { usePathname } from "next/navigation";
 import React, { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -7,17 +6,17 @@ import {
   onCreateNodesEdges,
   onFlowPublish,
 } from "../_actions/WorkConnectionsAction";
+import { EditorNodeEdgesType, EditorNodeType } from "@/lib/types";
 
 type Props = {
   children: React.ReactNode;
-  edges: any[];
-  nodes: any[];
+  edges: EditorNodeEdgesType[];
+  nodes: EditorNodeType[];
 };
 
 const FlowInstance = ({ children, edges, nodes }: Props) => {
   const pathName = usePathname();
   const [isFlow, setIsFlow] = useState([]);
-  const { nodeConnection } = useNodeConnections();
 
   const onFlowAutomation = useCallback(async () => {
     const flow = await onCreateNodesEdges(
@@ -27,7 +26,7 @@ const FlowInstance = ({ children, edges, nodes }: Props) => {
       JSON.stringify(isFlow)
     );
     if (flow) toast.message(flow.message);
-  }, [nodeConnection]);
+  }, [nodes, edges, isFlow, pathName]);
 
   const onPublishWorkflow = useCallback(async () => {
     const response = await onFlowPublish(pathName.split("/").pop()!, true);
@@ -38,7 +37,7 @@ const FlowInstance = ({ children, edges, nodes }: Props) => {
     const flows: any = [];
     const connectEdges = edges.map((edge) => edge.target);
     connectEdges.map((target) => {
-      nodes.forEach((node) => {
+      nodes.map((node) => {
         if (node.id === target) {
           flows.push(node.type);
         }
@@ -48,7 +47,7 @@ const FlowInstance = ({ children, edges, nodes }: Props) => {
   };
 
   useEffect(() => {
-    onAutomateFlow()
+    onAutomateFlow();
   }, [edges]);
 
   return (
