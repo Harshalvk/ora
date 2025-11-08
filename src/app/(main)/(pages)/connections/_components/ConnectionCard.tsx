@@ -29,7 +29,7 @@ const ConnectionCard = ({
   connected,
 }: Props) => {
   const [redirectUrl, setRedirectUrl] = useState("");
-  
+
   const getRedirectUri = async () => {
     title == "Discord"
       ? setRedirectUrl(process.env.NEXT_PUBLIC_DISCORD_REDIRECT!)
