@@ -1,12 +1,13 @@
 import { Card, CardContent, CardDescription } from "@/components/ui/card";
 import { onAddTemplate } from "@/lib/editor-utils";
+import { GoogleFileType } from "@/lib/types";
 import { ConnectionProviderProps } from "@/providers/ConnectionsProvider";
 import React from "react";
 
 type Props = {
   nodeConnection: ConnectionProviderProps;
   title: string;
-  gFile: any;
+  gFile: GoogleFileType;
 };
 
 const isGoogleFileNotEmpty = (file: any): boolean => {
@@ -18,7 +19,7 @@ const GoogleFileDetails = ({ nodeConnection, title, gFile }: Props) => {
     return null;
   }
 
-  const details = ["kind", "name", "mimeType"];
+  const details: (keyof GoogleFileType)[] = ["kind", "name", "mimeType"];
   if (title === "Google Drive") {
     details.push("id");
   }
@@ -26,7 +27,7 @@ const GoogleFileDetails = ({ nodeConnection, title, gFile }: Props) => {
   return (
     <div className="flex flex-wrap gap-2">
       <Card>
-        <CardContent className="flex flex-wrap gap-2 p-4">
+        <CardContent className="flex flex-wrap gap-2 p-4 text-wrap overscroll-none">
           {details.map((detail) => (
             <div
               key={detail}
@@ -36,7 +37,7 @@ const GoogleFileDetails = ({ nodeConnection, title, gFile }: Props) => {
               className="flex cursor-pointer gap-2 rounded-full bg-white px-3 py-1 text-gray-500"
             >
               {detail}:{" "}
-              <CardDescription className="text-black">
+              <CardDescription className="text-black w-full break-all">
                 {gFile[detail]}
               </CardDescription>
             </div>
