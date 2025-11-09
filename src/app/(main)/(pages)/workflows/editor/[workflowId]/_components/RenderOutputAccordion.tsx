@@ -1,8 +1,8 @@
 import { ConnectionProviderProps } from "@/providers/ConnectionsProvider";
 import { EditorState } from "@/providers/EditorProvider";
 import { useOraStore } from "@/store";
-import React from "react";
 import ContentBasedOnTitle from "./ContentBasedOnTitle";
+import { GoogleFileType } from "@/lib/types";
 
 type Props = {
   state: EditorState;
@@ -11,8 +11,8 @@ type Props = {
 
 const RenderOutputAccordion = ({ state, nodeConnection }: Props) => {
   const {
-    googleFile,
-    setGoogleFile,
+    googleFiles,
+    setGoogleFiles,
     selectedSlackChannels,
     setSelectedSlackChannels,
   } = useOraStore();
@@ -21,8 +21,8 @@ const RenderOutputAccordion = ({ state, nodeConnection }: Props) => {
     <ContentBasedOnTitle
       nodeConnection={nodeConnection}
       newState={state}
-      file={googleFile}
-      setFile={setGoogleFile}
+      files={googleFiles}
+      setFiles={setGoogleFiles}
       selectedSlackChannels={selectedSlackChannels}
       setSelectedSlackChannels={setSelectedSlackChannels}
     />
