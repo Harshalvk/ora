@@ -93,8 +93,8 @@ const EditorCanvasSidebar = ({ nodes }: Props) => {
           </div>
 
           <Accordion type="multiple">
-            <AccordionItem value="Options" className="border-y-[1px] px-2">
-              <AccordionTrigger className="!no-underline">
+            <AccordionItem value="Options" className="border-y px-2">
+              <AccordionTrigger className="no-underline!">
                 Account
               </AccordionTrigger>
               <AccordionContent>
@@ -108,7 +108,7 @@ const EditorCanvasSidebar = ({ nodes }: Props) => {
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="Expected Output" className="px-2">
-              <AccordionTrigger className="!no-underline">
+              <AccordionTrigger className="no-underline!">
                 Action
               </AccordionTrigger>
               <RenderOutputAccordion

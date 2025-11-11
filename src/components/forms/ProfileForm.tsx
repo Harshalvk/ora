@@ -74,7 +74,7 @@ const ProfileForm = ({ user }: Props) => {
           <Button
             type="submit"
             disabled={isLoading}
-            className="self-start hover:bg-zinc-900 hover:text-white border-[1px] transition-all duration-300"
+            className="self-start hover:bg-zinc-900 hover:text-white border transition-all duration-300"
           >
             {isLoading ? (
               <div className="flex items-center gap-1">

@@ -33,7 +33,7 @@ const CustomHandle = (props: Props) => {
 
         return false;
       }}
-      className="!-bottom-2 !h-4 !w-4 dark:bg-neutral-800"
+      className="-bottom-2! h-4! w-4! dark:bg-neutral-800"
     />
   );
 };
