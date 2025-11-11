@@ -7,6 +7,9 @@ import { eq } from "drizzle-orm";
 import { Button } from "@/components/ui/button";
 import { Rocket } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
+import { Title2 } from "@/components/Typography";
+import BillingHistoryTable from "./_components/BillingHistoryTable";
+import { columns, payments } from "./_components/columns";
 
 type Props = {
   searchParams?: Promise<{ [key: string]: string | undefined }>;
@@ -47,20 +50,21 @@ const Billing = async ({ searchParams }: Props) => {
         .where(eq(users.id, userSession.user.id!));
     }
   }
+
   return (
-    <section className="p-10 h-full">
+    <section className="p-8">
       <div>
         <h1 className="text-3xl md:text-4xl">Billing</h1>
         <p className="text-muted-foreground text-base md:text-md">
-          Manage your subscriptions, view payment history, and updat your
+          Manage your subscriptions, view payment history, and update your
           billing <br className="hidden md:flex" />
           details — all in one place.
         </p>
       </div>
-      <div>
-        <h1>Subscription Overview</h1>
-        <div className="grid md:grid-cols-2 gap-4">
-          <div className="flex flex-col gap-3 border border-border rounded-3xl px-7 py-4 shadow-sm bg-muted-foreground/5">
+      <div className="mt-10">
+        <Title2>Subscription Overview</Title2>
+        <div className="grid lg:grid-cols-2 gap-4">
+          <div className="flex flex-col gap-3 border border-border rounded-3xl px-7 py-4 shadow-xs bg-muted-foreground/5">
             <h3 className="font-medium">Current Plan</h3>
             <div className="border-t" />
             <div className="flex items-center justify-between">
@@ -78,12 +82,12 @@ const Billing = async ({ searchParams }: Props) => {
                 </p>
               </div>
 
-              <Button className="rounded-xl border-4 border-zinc-700  bg-gradient-to-t from-zinc-800 to-zinc-900 hover:from-zinc-700 hover:to-zinc-600 transition-all duration-300">
+              <Button className="rounded-xl border-4 border-zinc-700  bg-linear-to-t from-zinc-800 to-zinc-900 hover:from-zinc-700 hover:to-zinc-600 transition-all duration-300">
                 Upgrade <Rocket />
               </Button>
             </div>
           </div>
-          <div className="flex flex-col gap-3 border border-border rounded-3xl px-7 py-4 shadow-sm bg-muted-foreground/5">
+          <div className="flex flex-col gap-3 border border-border rounded-3xl px-7 py-4 shadow-xs bg-muted-foreground/5">
             <h3 className="font-medium">Usage summary</h3>
             <div className="border-t" />
             <div className="lg:flex justify-evenly gap-2">
@@ -100,7 +104,7 @@ const Billing = async ({ searchParams }: Props) => {
                 <div className="flex items-center gap-2">
                   <Progress
                     value={60}
-                    className="w-full border h-2 [&>*]:bg-orange-500 inset-shadow-sm inset-shadow-indigo-500"
+                    className="w-full border h-2 *:inset-shadow-sm"
                   />
                   <p className="text-sm">85%</p>
                 </div>
@@ -109,6 +113,11 @@ const Billing = async ({ searchParams }: Props) => {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="my-10">
+        <Title2>Billing History</Title2>
+        <BillingHistoryTable columns={columns} data={payments} />
       </div>
     </section>
   );
