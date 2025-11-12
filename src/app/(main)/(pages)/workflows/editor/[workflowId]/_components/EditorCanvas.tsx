@@ -189,10 +189,7 @@ const EditorCanvas = () => {
     <ResizablePanelGroup direction="horizontal" className="">
       <ResizablePanel defaultSize={70}>
         <div className="flex h-full items-center justify-center">
-          <div
-            style={{ width: "100%", height: "100%", paddingBottom: "70px" }}
-            className="relative"
-          >
+          <div style={{ width: "100%", height: "100%" }} className="relative">
             {isWorkFlowLoading ? (
               <div className="absolute flex h-full w-full items-center justify-center">
                 <svg
@@ -234,11 +231,7 @@ const EditorCanvas = () => {
                   zoomable
                   pannable
                 />
-                <Background
-                  // @ts-ignore
-                  gap={12}
-                  size={1}
-                />
+                <Background gap={10} size={1} />
               </ReactFlow>
             )}
           </div>
