@@ -12,7 +12,7 @@ import { CONNECTIONS, EditorCanvasDefaultCardTypes } from "@/lib/constants";
 import { EditorCanvasTypes, EditorNodeType } from "@/lib/types";
 import { useNodeConnections } from "@/providers/ConnectionsProvider";
 import { useEditor } from "@/providers/EditorProvider";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import EditorCanvasIconHelper from "./EditorCanvasIconHelper";
 import {
   fetchBotSlackChannels,
@@ -36,11 +36,11 @@ type Props = {
 const EditorCanvasSidebar = ({ nodes }: Props) => {
   const { state } = useEditor();
   const { nodeConnection } = useNodeConnections();
-  const { googleFile, setSlackChannels } = useOraStore();
+  const { googleFiles, setSlackChannels } = useOraStore();
 
   useEffect(() => {
     if (state) {
-      onConnections(nodeConnection, state, googleFile);
+      onConnections(nodeConnection, state, googleFiles);
     }
   }, [state]);
 
@@ -55,7 +55,7 @@ const EditorCanvasSidebar = ({ nodes }: Props) => {
 
   return (
     <aside>
-      <Tabs defaultValue="actions" className="h-screen overflow-scroll pb-24">
+      <Tabs defaultValue="actions" className="overflow-y-auto pb-24 h-screen">
         <TabsList className="bg-transparent">
           <TabsTrigger value="actions">Actions</TabsTrigger>
           <TabsTrigger value="settings">Settings</TabsTrigger>
