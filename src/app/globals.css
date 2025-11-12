@@ -5,9 +5,9 @@
 @utility container {
   margin-inline: auto;
   padding-inline: 2rem;
-  @media (width >= --theme(--breakpoint-sm)) {
+  /* @media (width >= --theme(--breakpoint-sm)) {
     max-width: none;
-  }
+  } */
   @media (width >= 1400px) {
     max-width: 1400px;
   }
@@ -55,8 +55,6 @@
   --animate-third: moveInCircle 40s linear infinite;
   --animate-fourth: moveHorizontal 40s ease infinite;
   --animate-fifth: moveInCircle 20s ease infinite;
-
-  --breakpoint-sm: 30rem;
 
   @keyframes scroll {
     to {
